@@ -95,6 +95,50 @@ describe('DirectedGraph', function() {
 
 
       //test for multiple directions, same weight
-      //check for edge cases
+      it('returns an array of more than 2 shortest paths that have equal weight', function() {
+        diGraph.addDirection('vertexA', 'vertexB', 2)
+        diGraph.addDirection('vertexB', 'vertexC', 2)
+        diGraph.addDirection('vertexC', 'vertexD', 2)
+        diGraph.addDirection('vertexD', 'vertexE', 2)
+        diGraph.addDirection('vertexA', 'vertexE', 8)
+        
+        expect(diGraph.findShortestPath('vertexA', 'vertexE')).to.eql([[{vertex1: 'vertexA', vertex2: 'vertexB'}, {vertex1: 'vertexB', vertex2: 'vertexC'}, {vertex1: 'vertexC', vertex2:'vertexD'}, {vertex1: 'vertexD', vertex2: 'vertexE'}], {vertex1: 'vertexA', vertex2: 'vertexE'}])
+      })
+    })
+
+    context('removeDirection', function() {
+      it("removes an existing direction between 'v1' and 'v2'", function() {
+        diGraph.addDirection('vertexA', 'vertexB', 1)
+        diGraph.addDirection('vertexB', 'vertexC', 2)
+        diGraph.addDirection('vertexA', 'vertexC', 4)
+        diGraph.removeDirection('vertexA', 'vertexB')
+
+        expect(diGraph.hasDirection('vertexA', 'vertexB')).to.eql(false)
+      })
+    })
+
+    context('getSeparatedVertices', function() {
+      it('returns an array of all the vertices that are separated from the graph', function() {
+        diGraph.addDirection('vertexA', 'vertexB', 1)
+        diGraph.addDirection('vertexB', 'vertexC', 2)
+        diGraph.addDirection('vertexA', 'vertexC', 4)
+        diGraph.addVertex('vertexE')
+        diGraph.addVertex('vertexN')
+        diGraph.addVertex('vertexO')
+        diGraph.addVertex('vertexQ')
+
+        expect(diGraph.getSeparatedVertices()).to.eql(['vertexE', 'vertexN', 'vertexO', 'vertexQ'])
+      })
+    })
+
+    context('count', function() {
+      it('returns the number of vertices in the graph', function() {
+       diGraph.addVertex('vertexE')
+       diGraph.addVertex('vertexN')
+       diGraph.addVertex('vertexO')
+       diGraph.addVertex('vertexQ')
+
+        expect(diGraph.count()).to.eql(4)
+      })
     })
 })
