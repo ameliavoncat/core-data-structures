@@ -74,7 +74,15 @@ describe('DirectedGraph', function() {
         diGraph.addDirection('vertexB', 'vertexC', 2)
         diGraph.addDirection('vertexA', 'vertexC', 4)
 
-        expect(diGraph.findShortestPath('vertexA', 'vertexC')).to.eql({vertices: {vertex1: 'vertexA', vertex2: 'vertexC'}, weight: 4})
+        expect(diGraph.findShortestPath('vertexA', 'vertexC')).to.eql([{vertex1: 'vertexA', vertex2: 'vertexC'}])
+      })
+
+      it('returns a multi-direction array when the shortest path takes multiple directions', function() {
+        diGraph.addDirection('vertexA', 'vertexB', 1)
+        diGraph.addDirection('vertexB', 'vertexC', 2)
+        diGraph.addDirection('vertexA', 'vertexC', 4)
+
+        expect(diGraph.findShortestPath('vertexA', 'vertexC')).to.eql([{vertex1: 'vertexA', vertex2: 'vertexB'}, {vertex1: 'vertexB', vertex2: 'vertexC'}])
       })
     })
 })

@@ -81,6 +81,7 @@ export default class DirectedGraph {
     }
 
     paths.forEach(path => {
+      console.log('this is our path!', path)
       if(path.weight){
         if(typeof shortestPath.weight === 'number'){
           if(path.weight < shortestPath.weight) {
@@ -113,7 +114,7 @@ export default class DirectedGraph {
         }
       }
     })
-
+    
     return shortestPath.direction
   }
 
