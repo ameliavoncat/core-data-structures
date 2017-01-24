@@ -84,32 +84,37 @@ export default class DirectedGraph {
       if(path.weight){
         if(typeof shortestPath.weight === 'number'){
           if(path.weight < shortestPath.weight) {
-            shortestPath.direction = path.vertices
+            shortestPath.direction = [path.vertices]
             shortestPath.weight = path.weight
+          } else if(path.weight === shortestPath.weight){
+            shortestPath.direction = [shortestPath.direction, path.vertices]
           }
-        } else if(path.weight === shortestPath.weight){
-          shortestPath.direction = [shortestPath.direction, path.vertices]
-        }  else {
-          shortestPath.direction = path.vertices
+        } else {
+          shortestPath.direction = [path.vertices]
           shortestPath.weight = path.weight
         }
       } else {
         let pathWeight = path.direction.weight
         let pathString = [path.direction.vertices]
-        path.path.forEach( path2 =>{
+        path.path.forEach( path2 => {
           pathString.push(path2.vertices)
           pathWeight += path2.weight
         })
-        if(pathWeight < shortestPath.weight){
+        if(typeof shortestPath.weight === 'number'){
+          if(pathWeight < shortestPath.weight){
+            shortestPath.direction = pathString
+            shortestPath.weight = pathWeight
+          } else if(pathWeight === shortestPath.weight){
+            shortestPath.direction = [shortestPath.direction, pathString]
+          }
+        } else {
           shortestPath.direction = pathString
-          shortestPath.weight = path.direction.weight
-        } else if(pathWeight === shortestPath.weight){
-          shortestPath.direction = [shortestPath.direction, pathString]
+          shortestPath.weight = pathWeight
         }
       }
     })
 
-    return shortestPath
+    return shortestPath.direction
   }
 
   removeDirection(vertex1, vertex2){
