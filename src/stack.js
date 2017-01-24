@@ -5,11 +5,11 @@ export default class Stack {
     this.stack = []
   }
 
-  stackPush(newOne){
+  push(newOne){
     this.stack.push(newOne)
   }
 
-  stackPop(){
+  pop(){
     let newStack = []
     let lastIndex = this.stack.length - 1
     const result = this.stack[lastIndex]
@@ -20,7 +20,7 @@ export default class Stack {
     return result
   }
 
-  stackPeek(){
+  peek(){
     let lastIndex = this.stack.length - 1
 
     return this.stack[lastIndex]
@@ -30,7 +30,7 @@ export default class Stack {
     return (this.stack.length === 0)
   }
 
-  getLength(){
+  length(){
     return this.stack.length
   }
 }
