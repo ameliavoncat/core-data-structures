@@ -72,7 +72,6 @@ export default class DirectedGraph {
   }
 
   findShortestPath(vertex1, vertex2){
-    const vertexDirections = this.findAllDirections(vertex1)
     let paths = this.findPaths(vertex1, vertex2, null)
 
     let shortestPath = {
@@ -80,38 +79,66 @@ export default class DirectedGraph {
       weight: null
     }
 
+    const checkSubPaths = (path, currentWeight) => {
+      let pathString = []
+      let pathWeight = currentWeight
+      if(path.path){
+        path.path.forEach( path2 => {
+          pathWeight += path2.weight
+          const subPaths = checkSubPaths(path2, pathWeight)
+          pathString.push(path2.vertices, subPaths)
+        })
+      }
+      return pathString
+    }
+
     paths.forEach(path => {
       if(path.weight){
+        console.log('path.weight', path.weight)
         if(typeof shortestPath.weight === 'number'){
           if(path.weight < shortestPath.weight) {
             shortestPath.direction = [path.vertices]
             shortestPath.weight = path.weight
           } else if(path.weight === shortestPath.weight){
             shortestPath.direction = [shortestPath.direction, path.vertices]
+            shortestPath.weight = path.weight
           }
         } else {
+          console.log('shortestPath.weight is not a number', path.weight)
           shortestPath.direction = [path.vertices]
           shortestPath.weight = path.weight
         }
       } else {
+        console.log('else', path.direction)
         let pathWeight = path.direction.weight
         let pathString = [path.direction.vertices]
         path.path.forEach( path2 => {
+          if(path2.path){
+            pathString.push(path2.vertices, checkSubPaths(path2))
+          }
+          console.log('path2',path2)
           pathString.push(path2.vertices)
           pathWeight += path2.weight
         })
         if(typeof shortestPath.weight === 'number'){
+          console.log('shortestPAth.weight', shortestPath.weight)
           if(pathWeight < shortestPath.weight){
             shortestPath.direction = pathString
             shortestPath.weight = pathWeight
+            console.log('pathWeight< shortestPath.weight', shortestPath.weight)
           } else if(pathWeight === shortestPath.weight){
+            console.log('Got into if statement!!!')
             shortestPath.direction = [shortestPath.direction, pathString]
+            shortestPath.weight = pathWeight
           }
         } else {
+          console.log('no weight + long path', pathString, pathWeight)
           shortestPath.direction = pathString
           shortestPath.weight = pathWeight
         }
+
       }
+
     })
 
     return shortestPath.direction

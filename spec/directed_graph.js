@@ -95,6 +95,16 @@ describe('DirectedGraph', function() {
 
 
       //test for multiple directions, same weight
+      it.only('returns an array of three different paths with equal weight', function() {
+        diGraph.addDirection('vertexA', 'vertexB', 2)
+        diGraph.addDirection('vertexB', 'vertexC', 2)
+        diGraph.addDirection('vertexA', 'vertexC', 4)
+        diGraph.addDirection('vertexB', 'vertexD', 1)
+        diGraph.addDirection('vertexD', 'vertexC', 1)
+        
+        expect(diGraph.findShortestPath('vertexA', 'vertexC')).to.eql([[{vertex1: 'vertexA', vertex2: 'vertexB'}, {vertex1: 'vertexB', vertex2: 'vertexD'}, {vertex1: 'vertexD', vertex2: 'vertexC'}],[{vertex1: 'vertexA', vertex2: 'vertexB'}, {vertex1: 'vertexB', vertex2: 'vertexC'}], {vertex1: 'vertexA', vertex2: 'vertexC'}])
+      })
+
       it('returns an array of more than 2 shortest paths that have equal weight', function() {
         diGraph.addDirection('vertexA', 'vertexB', 2)
         diGraph.addDirection('vertexB', 'vertexC', 2)
