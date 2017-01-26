@@ -1,8 +1,8 @@
 class Node {
   constructor(data, prev, next) {
   this.data = data
-  this.next = next
-  this.prev = prev
+  this.next = next || null
+  this.prev = prev || null
   }
 }
 
@@ -24,36 +24,79 @@ const DoublyLinkedList = class {
   }
 
   insert(data) {
-    let node = new Node(data) 
-
-    if(this._length) {
-      this.tail.next = node
-      node.prev = this.tail
-      this.tail = node
-    } else {
+    let node = new Node(data)
+    let currentNode = this.head 
+    if(currentNode === null) {
       this.head = node
-      this.tail = node
+      return node
     }
+    while(currentNode.next !== null) {
+      currentNode = currentNode.next
+    }
+    node.prev = currentNode 
+    currentNode.next = node
+    this.tail = node
     this._length++
     return node
   }
 
-  // insertFirst(value) {
-  //   let insertedNode = 
-  //   this.head = 
-  // }
+  insertFirst(value) {
+    let node = new Node(value)
+    if(!this.head) {
+    this.head = node
+    this._length++
 
-  // insertBefore(value) {
+    return node
+    }
+    let currentNode = this.head
+    node.next = currentNode
+    this.head = node
 
-  // }
+    return node
+  }
 
-  // insertAfter(value) {
+  insertBefore(data, newData) {
+    let currentNode = this.head
+    let insertedNode
+    while( (currentNode !== null) && (insertedNode === undefined) ) {
+      if(currentNode.next !== null) {
+        if( currentNode.next.data === data ){
+          insertedNode = new Node( newData )
+          insertedNode.next = currentNode.next
+          currentNode.next = insertedNode
+          insertedNode.prev = currentNode
+        }
+      }
+      if( (currentNode === this.head) && (currentNode.data === data) ) {
+        insertedNode = new Node( newData )
+        insertedNode.next = currentNode
+        currentNode.prev = insertedNode
+        this.head = insertedNode
+      }
+      currentNode = currentNode.next
+    }
+    return insertedNode
+  }
 
-  // }
+  insertAfter(data, newData) {
+    let insertedNode = new Node( newData )
+    let currentNode = this.head
 
-  // find() {
+    while( currentNode ) {
+      if( currentNode.data === data ){
+        console.log('match!')
+        insertedNode.next = currentNode.next
+        insertedNode.prev = currentNode
+        currentNode.next = insertedNode
 
-  // }
+        if( currentNode === this.tail ){
+          this.tail = insertedNode
+        }
+      }
+      currentNode = currentNode.next
+    }
+    return insertedNode 
+  }
   
   find(position) {
     let currentNode = this.head
@@ -110,8 +153,9 @@ const DoublyLinkedList = class {
 // const dll = new DoublyLinkedList()
 // dll.insert(10)
 // dll.insert(11)
-// dll.insert(12)
-// console.log(dll.getTailNode())
+// dll.insert(13)
+// // dll.insert(13, 12)
+// console.log(dll)
 
 
 export default DoublyLinkedList

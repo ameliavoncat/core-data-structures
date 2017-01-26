@@ -3,7 +3,7 @@
 class Node {
   constructor(data, next) {
     this.data = data
-    this.next = next
+    this.next = next || null
   }
 }
 
@@ -54,19 +54,22 @@ class LinkedList {
   }
 
   insertBefore( data, newData ) {
-     let node = new Node( newData )
-     let currentNode = this.head
-     let previous
-
-     while( currentNode.next ) {
-       if( currentNode.data === data ){
-         node.next = currentNode
-         currentNode.previous = node
-       }
-       currentNode = currentNode.next
-     }
-      return node
-   }
+    let currentNode = this.head
+    let insertedNode
+    while( (currentNode !== null) && (insertedNode === undefined) ) {
+      if( JSON.stringify(currentNode.next.data) === JSON.stringify(data) ){
+       insertedNode = new Node( newData )
+       insertedNode.next = currentNode.next
+       currentNode.next = insertedNode
+      }
+      if( (currentNode === this.head) && (currentNode.data === data) ) {
+        insertedNode = new Node( newData )
+        insertedNode.next = currentNode
+        this.head = insertedNode
+      }
+    }
+    return insertedNode
+  }
 
 
   insertAfter( data, newData ) {
@@ -82,10 +85,6 @@ class LinkedList {
       currentNode = currentNode.next
     }
   }
-
-  // insertAfter(value) {
-
-  // }
   
   getHeadNode() {
     return this.head
@@ -100,10 +99,4 @@ class LinkedList {
   }
 }
 
-const llist = new LinkedList()
-llist.insert('claire')
-llist.insert('santos')
-llist.insertAfter('claire', 'aileen')
-console.log(llist)
-
-// export default LinkedList
+export default LinkedList

@@ -1,28 +1,47 @@
 import chai, { expect } from 'chai'
 import chaiChange from 'chai-change'
-import DoublyLinkedList from '../../src/LinkedLists/DoublyLinkedList'
+import DoublyLinkedList from '../src/doubly_linked_list'
 
 chai.use(chaiChange)
+  let dll
 
 describe('DoublyLinkedList()', () => {
+  beforeEach(function(){
+    dll = new DoublyLinkedList()
+  })
+
   it('exists', function () {
     expect(DoublyLinkedList).to.be.a('function')
   }) 
   
   context('insert()', () => {
     it('inserts a new node and its value to the tail of the list', () => {
-      const dll = new DoublyLinkedList()
       dll.insert(10)
       dll.insert(11)
       dll.insert(12)
       
+    expect(dll.head.data).to.eql(10)
+    expect(dll.head.next.data).to.eql(11)
+    expect(dll.head.next.next.data).to.eql(12)
     expect(dll.getTailNode()).to.eql(12)
    })
   })
 
+  context('insertBefore()', () => {
+    it('inserts a node and its value before a specified node', () => {
+      dll.insert(10)
+      dll.insert(11)
+      dll.insert(13)
+      dll.insertBefore(13, 12)
+      console.log(dll.head)
+
+      expect(dll.head.next.next.data).to.eql(12)
+    })
+  })
+  
   // context('insertFirst()', () => {
   //   it('inserts a node and its value to the head of the list', () => {
-  //     const dll = new DoublyLinkedList()
+  
   //     dll.insert(10)
   //     dll.insert(11)
   //     dll.insert(12)
@@ -31,11 +50,18 @@ describe('DoublyLinkedList()', () => {
   //   })
   // })
 
-  // context('insertAfter()', () => {
-  //   it('inserts a node and its value after the first node', () => {
+  context.only('insertAfter()', () => {
+    it('inserts a node and its value after the first node', () => {
+      dll.insert(10)
+      dll.insert(11)
+      dll.insert(13)
+      dll.insertAfter(13, 14)
+      console.log(dll.tail)
 
-  //   })
-  // })
+      expect(dll.tail.data).to.eql(14)
+      expect(dll.head.next.next.next.data).to.eql(14)
+    })
+  })
 
   context('find()', () => {
     it('searches for a node at a specific position in the list', () => {
