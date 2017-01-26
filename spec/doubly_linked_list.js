@@ -39,18 +39,18 @@ describe('DoublyLinkedList()', () => {
     })
   })
   
-  // context('insertFirst()', () => {
-  //   it('inserts a node and its value to the head of the list', () => {
+  context('insertFirst()', () => {
+    it('inserts a node and its value to the head of the list', () => {
   
-  //     dll.insert(10)
-  //     dll.insert(11)
-  //     dll.insert(12)
+      dll.insert(10)
+      dll.insert(11)
+      dll.insert(12)
 
-  //     expect(dll.getHeadNode().data).to.eql(10)
-  //   })
-  // })
+      expect(dll.getHeadNode()).to.eql(10)
+    })
+  })
 
-  context.only('insertAfter()', () => {
+  context('insertAfter()', () => {
     it('inserts a node and its value after the first node', () => {
       dll.insert(10)
       dll.insert(11)
