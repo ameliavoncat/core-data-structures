@@ -54,12 +54,14 @@ describe('LinkedList', function() {
     })
   })
 
-  // context('insertBefore', function() {
-  //   it("inserts a node containing the data 'claire' before the node containg the data 'aileen'", function() {
-  //     llist.insertBefore('claire', 'aileen')
+  context('insertBefore', function() {
+    it("inserts a node containing the data 'claire' before the node containg the data 'aileen'", function() {
+      llist.insert('claire')
+      llist.insert('santos')
+      llist.insertBefore('claire', 'aileen')
 
-  //     expect(llist).to.equal('aileen')
-  //   })
-  // })
+      expect(llist.getHeadNode().data).to.equal('aileen')
+    })
+  })
 
 })

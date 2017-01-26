@@ -53,8 +53,34 @@ class LinkedList {
     return node
   }
 
-  insertBefore(val, newVal) {
-    let node = new Node(value)
+  insertBefore( data, newData ) {
+     let node = new Node( newData )
+     let currentNode = this.head
+     let previous
+
+     while( currentNode.next ) {
+       if( currentNode.data === data ){
+         node.next = currentNode
+         currentNode.previous = node
+       }
+       currentNode = currentNode.next
+     }
+      return node
+   }
+
+
+  insertAfter( data, newData ) {
+    let node = new Node( newData )
+    let currentNode = this.head
+
+    while( currentNode.next ) {
+      if( currentNode.data === data ){
+        node.next = currentNode.next
+        currentNode.next = node
+        return node
+      }
+      currentNode = currentNode.next
+    }
   }
 
   // insertAfter(value) {
@@ -74,11 +100,10 @@ class LinkedList {
   }
 }
 
-// const llist = new LinkedList()
-// llist.insert('aileen')
-// llist.insert('claire')
-// llist.insert('lagunzad')
-// llist.insert('santos')
-// console.log(llist.getTailNode())
+const llist = new LinkedList()
+llist.insert('claire')
+llist.insert('santos')
+llist.insertAfter('claire', 'aileen')
+console.log(llist)
 
-export default LinkedList
+// export default LinkedList
