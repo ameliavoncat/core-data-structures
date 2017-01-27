@@ -14,19 +14,19 @@ class HashTable {
   }
 
 
-    setItem(key, value){
-        let previous = undefined;
-        if (this.hasItem(key)) {
-            previous = this.items[key];
-        }
-        else {
-            this.length++;
-        }
-        this.items[key] = value;
-        return previous;
-    }
+  setItem(key, value){
+      let previous = undefined;
+      if (this.hasItem(key)) {
+          previous = this.items[key];
+      }
+      else {
+          this.length++;
+      }
+      this.items[key] = value;
+      return previous;
+  }
 
-    this.getItem = function(key) {
+  getItem = function(key) {
         return this.hasItem(key) ? this.items[key] : undefined;
     }
 
